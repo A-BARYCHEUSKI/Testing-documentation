@@ -1,0 +1,489 @@
+Вам необходимо написать SQL запросы, перечисленные ниже.
+Результатом вашей домашней работы для каждого пункта должны быть SQL запрос, написанный под заданием.
+Кроме того, после каждого задания у вас есть ответ правильной выборки для самоконтроля.
+
+1.	Выбрать все строки из таблицы c перевозчиками.
+
+select * from voodoo.Shippers;
+
++-----------+------------------+----------------+
+| ShipperID | ShipperName      | Phone          |
++-----------+------------------+----------------+
+|         1 | Speedy Express   | (503) 555-9831 |
+|         2 | United Package   | (503) 555-3199 |
+|         3 | Federal Shipping | (503) 555-9931 |
++-----------+------------------+----------------+
+
+2.	Выбрать первые 3 строки из таблицы c сотрудниками.
+
+select * from voodoo.Employees limit 3;
+
++----------------------------------------------------------------------------------------------
+|          1 | Davolio   | Nancy     | 1968-12-08 | EmpID1.pic | Education includes a BA in na.
+|          2 | Fuller    | Andrew    | 1952-02-19 | EmpID2.pic | Andrew received his BTS vice. 
+|          3 | Leverling | Janet     | 1963-08-30 | EmpID3.pic | Janet has a BS degree in ative
++----------------------------------------------------------------------------------------------
+
+3.	Из таблицы сотрудников выбрать все имена, фамилии, дни рождения в следующем порядке: BirthDate, FirstName, LastName, количество строк в выборке ограничить 3-мя.
+
+select BirthDate, FirstName, LastName from voodoo.Employees limit 3;
+
++------------+-----------+-----------+
+| BirthDate  | FirstName | LastName  |
++------------+-----------+-----------+
+| 1968-12-08 | Nancy     | Davolio   |
+| 1952-02-19 | Andrew    | Fuller    |
+| 1963-08-30 | Janet     | Leverling |
++------------+-----------+-----------+
+
+4.	Выбрать имена и фамлии сотрудников, родившихся в 1958 году.
+ВАРИАНТ 1
+select FirstName, LastName from voodoo.Employees where YEAR (BirthDate)=1958;
+
+либо
+Вариант 2
+select FirstName, LastName from voodoo.Employees where BirthDate between '1958-01-01' and '1958-12-31';
++-----------+----------+
+| FirstName | LastName |
++-----------+----------+
+| Margaret  | Peacock  |
+| Laura     | Callahan |
++-----------+----------+
+
+5.	Выбрать все товары с ценой от 23 до 25.
+
+select * from voodoo.Products where Price between 23 AND 25;
+
++-----------+------------------------------+------------+------------+-------------------+-------+
+| ProductID | ProductName                  | SupplierID | CategoryID | Unit              | Price |
++-----------+------------------------------+------------+------------+-------------------+-------+
+|         6 | Grandma's Boysenberry Spread |          3 |          2 | 12 - 8 oz jars    | 25.00 |
+|        14 | Tofu                         |          6 |          7 | 40 - 100 g pkgs.  | 23.25 |
+|        55 | Pbtu chinois                 |         25 |          6 | 24 boxes x 2 pies | 24.00 |
++-----------+------------------------------+------------+------------+-------------------+-------+
+
+6.	Найти товары с минимальной ценой.
+
+select * from voodoo.Products where Price=(Select MIN(Price) from voodoo.Products);
+
++-----------+-------------+------------+------------+-------+-------+
+| ProductID | ProductName | SupplierID | CategoryID | Unit  | Price |
++-----------+-------------+------------+------------+-------+-------+
+|        33 | Geitost     |         15 |          4 | 500 g |  2.50 |
++-----------+-------------+------------+------------+-------+-------+
+
+7.	Найти товары с максимальной ценой. 
+
+select * from voodoo.Products where Price=(Select MAX(Price) from voodoo.Products);
+
++-----------+---------------+------------+------------+--------------------+--------+
+| ProductID | ProductName   | SupplierID | CategoryID | Unit               | Price  |
++-----------+---------------+------------+------------+--------------------+--------+
+|        38 | Cute de Blaye |         18 |          1 | 12 - 75 cl bottles | 263.50 |
++-----------+---------------+------------+------------+--------------------+--------+
+
+8.	Выбрать все товары, у которых Unit '10 pkgs.'.
+
+select * from voodoo.Products where Unit='10 pkgs.';
+
++-----------+-------------+------------+------------+----------+-------+
+| ProductID | ProductName | SupplierID | CategoryID | Unit     | Price |
++-----------+-------------+------------+------------+----------+-------+
+|        48 | Chocolade   |         22 |          3 | 10 pkgs. | 12.75 |
++-----------+-------------+------------+------------+----------+-------+
+
+9.	Выбрать адреса поставщиков, которые проживают в одном из городов: Tokyo, Frankfurt, Osaka. 
+
+select Address from voodoo.Suppliers where City IN ('Tokyo','Frankfurt','Osaka');
+
++---------------------------+
+| Address                   |
++---------------------------+
+| 9-8 Sekimai Musashino-shi |
+| 92 Setsuko Chuo-ku        |
+| Bogenallee 51             |
++---------------------------+
+
+10.	Выбрать название товаров начинающихся с буквы “G”, у которых цена больше 37.
+
+select ProductName from voodoo.Products where ProductName Like 'G%' AND Price>37;
+
++------------------------+
+| ProductName            |
++------------------------+
+| Gnocchi di nonna Alice |
++------------------------+
+
+11.	 Вывести список стран начинающихся на S и состоящих из 5 букв, из которых есть поставщики. 
+
+select Country from voodoo.Suppliers where Country Like 'S____';
+
++---------+
+| Country |
++---------+
+| Spain   |
++---------+
+
+12.	 Вывести сумму всех товаров, в названии которых содержится ”od”, столбец назвать Summ.
+
+select SUM(Price) AS Summ from voodoo.Products where ProductName Like '%od%';
+
++--------+
+| Summ   |
++--------+
+| 131.00 |
++--------+
+
+13.	 Вывести среднюю сумму товаров, поставляемых в бутылках, округлив до 2-х знаков после запятой, столбец назвать Summ. 
+
+select ROUND(AVG(Price),2) AS Summ from voodoo.Products where Unit Like '%bottle%';
+
++-------+
+| Summ  |
++-------+
+| 37.03 |
++-------+
+
+14.	 Найти количество клиентов, которые НЕ проживают в Франции и Германии,  столбец назвать Countt.
+
+select COUNT(CustomerID) AS Countt from voodoo.Customers where Country NOT LIKE 'France' AND Country NOT LIKE 'Germany';
+
++--------+
+| Countt |
++--------+
+|     69 |
++--------+
+
+15.	 Вывести имена сотрудников, родившихся после 01.01.1968 года. Отсортировать результат по имени. 
+
+select FirstName from voodoo.Employees where BirthDate > '1968-01-01' ORDER BY FirstName;
+ 
++-----------+
+| FirstName |
++-----------+
+| Anne      |
+| Nancy     |
++-----------+
+
+16.	 Выбрать названия товаров, у которых Price = 13 или 15 и отсортировать по возрастанию, использовать Select команды с объединением результатов через UNION.
+
+select ProductName from voodoo.Products where Price=13 UNION select ProductName from voodoo.Products where Price=15;
+
++---------------------------------+
+| ProductName                     |
++---------------------------------+
+| Original Frankfurter grine Soae |
+| Outback Lager                   |
+| Rud Kaviar                      |
++---------------------------------+
+
+17.	 Показать имена товаров, в названии которых третяя буква m и названия их поставщиков.
+
+SELECT Products.ProductName, Suppliers.SupplierName
+FROM voodoo.Products
+JOIN voodoo.Suppliers on Products.SupplierID=Suppliers.SupplierID where ProductName like '__m%';
+
++---------------------------+-----------------------------------+
+| ProductName               | SupplierName                      |
++---------------------------+-----------------------------------+
+| Gumbur Gummiburchen       | Heli Swaren GmbH & Co. KG         |
+| Camembert Pierrot         | Gai puturage                      |
+| Wimmers gute Semmelknudel | Plutzer Lebensmittelgroumurkte AG |
++---------------------------+-----------------------------------+
+
+18.	Показать имена и фамилии сотрудника, который оформил заказ 1996-11-27 (написать запрос двумя способами: через INNER Join, и используя подзапрос).
+
+ВАРИАНТ C INNER JOIN
+SELECT Employees.FirstName, Employees.LastName
+FROM voodoo.Employees
+JOIN voodoo.Orders on Employees.EmployeeID=Orders.EmployeeID
+WHERE OrderDate='1996-11-27';
+
+ВАРИАНТ C ПОДЗАПРОСОМ
+SELECT Employees.FirstName, Employees.LastName
+FROM voodoo.Employees
+WHERE EmployeeID IN (Select EmployeeID from voodoo.Orders where OrderDate='1996-11-27');
+
++-----------+-----------+
+| FirstName | LastName  |
++-----------+-----------+
+| Janet     | Leverling |
++-----------+-----------+
+
+
+19.	Выбрать все товары, у которых поставщик «Grandma Kelly's Homestead» и цена > 27. В результате вывести 3 колонки: Product, Supplier, Price.
+
+ВАРИАНТ 1
+SELECT Products.ProductName, Suppliers.SupplierName, Products.Price
+FROM voodoo.Products
+JOIN voodoo.Suppliers on Products.SupplierID=Suppliers.SupplierID
+WHERE SupplierName like 'Grandma Kelly%' AND Price>27;
+
+ВАРИАНТ 2
+SELECT Products.ProductName, Suppliers.SupplierName, Products.Price
+FROM voodoo.Products
+JOIN voodoo.Suppliers on Products.SupplierID=Suppliers.SupplierID
+WHERE SupplierName like 'Grandma Kelly\'s Homestead' AND Price>27;
+
++---------------------------------+---------------------------+-------+
+| ProductName                     | SupplierName              | Price |
++---------------------------------+---------------------------+-------+
+| Uncle Bob's Organic Dried Pears | Grandma Kelly's Homestead | 30.00 |
+| Northwoods Cranberry Sauce      | Grandma Kelly's Homestead | 40.00 |
++---------------------------------+---------------------------+-------+
+
+20.	 Вывести суммарное количество продукта 'Queso Cabrales' (столбец обозвать Summ), отправленного всем покупателям (написать запрос двумя способами: через INNER Join, и используя подзапрос).
+
+ВАРИАНТ C INNER JOIN
+SELECT SUM(Quantity) AS Summ
+FROM voodoo.OrderDetails
+JOIN voodoo.Products on Products.ProductID=OrderDetails.ProductID
+WHERE ProductName='Queso Cabrales';
+
+ВАРИАНТ C ПОДЗАПРОСОМ
+SELECT SUM(Quantity) AS Summ
+FROM voodoo.OrderDetails
+WHERE ProductID IN (Select ProductID from voodoo.Products WHERE ProductName='Queso Cabrales');
+
++------+
+| Summ |
++------+
+|  182 |
++------+
+
+21.	Показать все заказы, которые были отправлены по адресу «Ekergatan 24» с их заказчиками и сотрудниками. В результате вывести 3 колонки – ID заказа, имя заказчика, имя сотрудника, фамилия сотрудника.
+
+SELECT Orders.OrderID, Customers.CustomerName, Employees.FirstName, Employees.LastName
+FROM voodoo.Orders
+Left JOIN voodoo.Customers on Customers.CustomerID=Orders.CustomerID
+Left JOIN voodoo.Employees on Employees.EmployeeID=Orders.EmployeeID
+WHERE Address like '%24%' AND Address like '%Ekergatan%';
+
++---------+----------------+-----------+-----------+
+| OrderID | CustomerName   | FirstName | LastName  |
++---------+----------------+-----------+-----------+
+|   10264 | Folk och fe HB | Michael   | Suyama    |
+|   10327 | Folk och fe HB | Andrew    | Fuller    |
+|   10378 | Folk och fe HB | Steven    | Buchanan  |
+|   10434 | Folk och fe HB | Janet     | Leverling |
++---------+----------------+-----------+-----------+
+
+22.	Преобразовать предыдущий запрос таким образом, чтобы те же данные выводились в 3-х колонках – объединить LastName и FirstName из Employees в одну колонку через пробел и назвать ее EmployeeName (2 LEFT JOINS). 
+
+SELECT Orders.OrderID, Customers.CustomerName, CONCAT(Employees.FirstName,' ',Employees.LastName) AS EmployeeName
+FROM voodoo.Orders
+Left JOIN voodoo.Customers on Customers.CustomerID=Orders.CustomerID
+Left JOIN voodoo.Employees on Employees.EmployeeID=Orders.EmployeeID
+WHERE Address like '%Ekergatan 24%';
+
++---------+----------------+-----------------+
+| OrderID | CustomerName   | EmployeeName    |
++---------+----------------+-----------------+
+|   10264 | Folk och fe HB | Michael Suyama  |
+|   10327 | Folk och fe HB | Andrew Fuller   |
+|   10378 | Folk och fe HB | Steven Buchanan |
+|   10434 | Folk och fe HB | Janet Leverling |
++---------+----------------+-----------------+
+
+23.	Показать все продукты, содержащиеся в заказах 1997-го года и в названии которых менее 5 букв. В результате вывести OrderID, OrderDate, ProductName (написать запрос двумя способами: через INNER JOINS, и используя подзапросы).
+
+ВАРИАНТ С INNER JOIN
+SELECT Orders.OrderID, Orders.OrderDate, Products.ProductName
+FROM voodoo.Orders
+JOIN voodoo.OrderDetails on Orders.OrderID=OrderDetails.OrderID
+JOIN voodoo.Products on Products.ProductID=OrderDetails.ProductID
+WHERE Year(OrderDate)='1997' and CHAR_LENGTH (ProductName)<5;
+
+ВАРИАНТ С ПОДЗАПРОСАМИ (1)
+SELECT Orders.OrderID, Orders.OrderDate, Products.ProductName
+FROM voodoo.Orders, voodoo.OrderDetails, voodoo.Products
+WHERE Year(OrderDate)='1997'
+AND Orders.OrderID=OrderDetails.OrderID
+AND Products.ProductID=OrderDetails.ProductID
+AND ProductName IN (Select ProductName from voodoo.Products WHERE CHAR_LENGTH(ProductName)<5);
+
+ВАРИАНТ С ПОДЗАПРОСАМИ (2)
+SELECT Orders.OrderID, Orders.OrderDate, Products.ProductName
+FROM voodoo.Orders, voodoo.Products
+WHERE OrderDate between '1997-01-01' AND '1997-12-31'
+AND ProductName IN
+(Select ProductName from voodoo.Products
+WHERE CHAR_LENGTH(ProductName)<5)
+AND OrderID IN
+(Select OrderID from voodoo.OrderDetails
+WHERE ProductID IN (Select ProductID from voodoo.Products WHERE CHAR_LENGTH(ProductName)<5));
+
++---------+------------+-------------+
+| OrderID | OrderDate  | ProductName |
++---------+------------+-------------+
+|   10409 | 1997-01-09 | Tofu        |
+|   10412 | 1997-01-13 | Tofu        |
+|   10427 | 1997-01-27 | Tofu        |
++---------+------------+-------------+
+
+24.	Показать названия продуктов и их категорий, которые используются в заказах от заказчика по имени Blondel père et fils и категории которых состоят как минимум из 2-х слов.
+
+SELECT Categories.CategoryName, Products.ProductName
+FROM voodoo.Products
+JOIN voodoo.Categories on Categories.CategoryID=Products.CategoryID
+WHERE CategoryName like '% %' AND ProductID IN
+(Select ProductID from voodoo.OrderDetails WHERE OrderID IN
+(Select OrderID from voodoo.Orders WHERE CustomerID IN
+(Select CustomerID from voodoo.Customers WHERE CustomerName like 'Blondel pere et fils')));
+
++----------------+------------------------+
+| CategoryName   | ProductName            |
++----------------+------------------------+
+| Dairy Products | Mozzarella di Giovanni |
++----------------+------------------------+
+
+25.	 Вывести количество заказчиков (колонку назвать Buyers), которые сделали заказали один из  продуктов: «Queso Cabrales», «Gustaf's Knäckebröd», «Louisiana Fiery Hot Pepper Sauce», «Schoggi Schokolade», «Gnocchi di nonna Alice».
+
+ЗДЕСЬ В ИТОГОВОЙ ТАБЛИЦЕ ОШИБКА из-за написания продукта Gustaf's Knäckebröd.
+В базе данных он хранится как Gustaf's Knuckebrud.
+Видимо автор задания некорректно указал в своем запросе название продукта.
+При корректном указании названия - 26.
+
+ПРАВИЛЬНЫЙ РЕЗУЛЬТАТ (26)
+SELECT Count(DISTINCT CustomerName) AS Buyers
+FROM voodoo.Customers, voodoo.Products, voodoo.Orders, voodoo.OrderDetails
+WHERE Customers.CustomerID=Orders.CustomerID AND Orders.OrderID=OrderDetails.OrderID
+AND Products.ProductID=OrderDetails.ProductID AND Products.ProductID IN
+(Select ProductID from voodoo.Products
+WHERE ProductName IN ('Queso Cabrales', 'Gustaf\'s Knuckebrud', 'Louisiana Fiery Hot Pepper Sauce', 'Schoggi Schokolade', 'Gnocchi di nonna Alice'));
+
+НЕПРАВИЛЬНЫЙ РЕЗУЛЬТАТ (25)
+SELECT Count(DISTINCT CustomerName) AS Buyers
+FROM voodoo.Customers, voodoo.Products, voodoo.Orders, voodoo.OrderDetails
+WHERE Customers.CustomerID=Orders.CustomerID AND Orders.OrderID=OrderDetails.OrderID
+AND Products.ProductID=OrderDetails.ProductID AND Products.ProductID IN
+(Select ProductID from voodoo.Products
+WHERE ProductName IN ('Queso Cabrales', 'Gustaf\'s Knackebrod', 'Louisiana Fiery Hot Pepper Sauce', 'Schoggi Schokolade', 'Gnocchi di nonna Alice'));
+
++--------+
+| Buyers |
++--------+
+|     25 |
++--------+
+
+26.	 *Найти города в которые было отправлено больше всего заказов, вывести назание города и количество заказов (колонку назвать Amount).
+
+ВАРИАНТ 1
+SET @M:=(Select MAX(A) from (Select City, Count(*) AS A
+FROM voodoo.Orders
+JOIN voodoo.Customers ON Customers.CustomerID=Orders.CustomerID
+GROUP BY City) AS Mor);
+SELECT * from
+(Select City, Count(*) AS Amount
+FROM voodoo.Orders
+JOIN voodoo.Customers ON Customers.CustomerID=Orders.CustomerID
+GROUP BY City) AS Morder
+HAVING Amount=@M;
+
+ВАРИАНТ 2 - так короче но дает ошибку, я бы сказал даже не ошибку а предупреждение.
+SET @M:=MAX(Amount);
+SELECT City, Count(*) AS Amount
+FROM voodoo.Orders
+JOIN voodoo.Customers ON Customers.CustomerID=Orders.CustomerID
+GROUP BY City
+HAVING Amount=@M;
+ 
++--------+--------+
+| City   | Amount |
++--------+--------+
+| Graz   |     10 |
++--------+--------+
+
+27.	 *Найти из какого города было поставлено наибольшее количество единиц товаров в Лондон, вывести название города и количество единиц (колонку назвать Amount).
+
+SET @M:=(Select MAX(Amount)
+FROM (Select Suppliers.City, SUM(OrderDetails.Quantity) As Amount
+FROM voodoo.Orders
+JOIN voodoo.Customers ON Customers.CustomerID=Orders.CustomerID
+JOIN voodoo.OrderDetails ON OrderDetails.OrderID=Orders.OrderID
+JOIN voodoo.Products ON OrderDetails.ProductID=Products.ProductID
+JOIN voodoo.Suppliers ON Suppliers.SupplierID=Products.SupplierID
+WHERE Customers.City Like 'London%'
+GROUP BY Suppliers.City) AS A);
+Select Suppliers.City, SUM(OrderDetails.Quantity) As Amount
+FROM voodoo.Orders
+JOIN voodoo.Customers ON Customers.CustomerID=Orders.CustomerID
+JOIN voodoo.OrderDetails ON OrderDetails.OrderID=Orders.OrderID
+JOIN voodoo.Products ON OrderDetails.ProductID=Products.ProductID
+JOIN voodoo.Suppliers ON Suppliers.SupplierID=Products.SupplierID
+WHERE Customers.City Like 'London%'
+GROUP BY Suppliers.City
+Having Amount=@M;
+
++---------+--------+
+| City    | Amount |
++---------+--------+
+| Annecy  |     80 |
+| Ravenna |     80 |
++---------+--------+
+
+28.	 *Найти перевозчиков, которые перевезли более 30 разнообразных напитков (Beverages), вывести имена перевозчиков, категорию товара и количество перевезенных видов товара (колонку назвать Amount).
+
+Select ShipperName, CategoryName, COUNT(ProductName) As Amount
+FROM voodoo.Orders
+JOIN voodoo.Shippers ON Shippers.ShipperID=Orders.ShipperID
+JOIN voodoo.OrderDetails ON OrderDetails.OrderID=Orders.OrderID
+JOIN voodoo.Products ON OrderDetails.ProductID=Products.ProductID
+JOIN voodoo.Categories ON Categories.CategoryID=Products.CategoryID
+WHERE CategoryName Like 'Beverages'
+GROUP BY ShipperName, CategoryName
+HAVING Amount>30;
+
++------------------+--------------+--------+
+| ShipperName      | CategoryName | Amount |
++------------------+--------------+--------+
+| Federal Shipping | Beverages    |     31 |
+| United Package   | Beverages    |     37 |
++------------------+--------------+--------+
+
+29.	 *Найти среднюю стоимость приправ (Condiments) отправленных в штаты, заказы на которые оформлены Margaret Peacock, вывести стоимость округленную до 2-х знаков после запятой (колонку назвать Average)
+
+SELECT ROUND(AVG(Price),2) As Average
+FROM voodoo.Orders
+JOIN voodoo.OrderDetails ON OrderDetails.OrderID=Orders.OrderID
+JOIN voodoo.Products ON OrderDetails.ProductID=Products.ProductID
+JOIN voodoo.Categories ON Categories.CategoryID=Products.CategoryID
+JOIN voodoo.Customers ON Customers.CustomerID=Orders.CustomerID
+JOIN voodoo.Employees ON Employees.EmployeeID=Orders.EmployeeID
+WHERE CategoryName Like 'Condiments' AND Country Like 'USA'AND FirstName Like 'Margaret' AND LastName Like 'Peacock';
+
++---------+
+| Average |
++---------+
+|   30.17 |
++---------+
+
+30.	 ** Найти сотрудников, которые оформили заказов на такой процент от общей стоимости всех оформленных заказов, который больше, чем процент общей стоимости заказов оформленных сотрудником, о котром в базе содержится самое длинное примечание (Notes), к общей стоимости всех заказов, который были перевезены перевозчиками, у которых номер телефона совпадает с номером телефона одного из поставщиков. Вывести полные имена сотрудников (в одной ячейке через пробел, назвав колонку EmployeeName) и процент от общей стоимости оформленных ими заказов к общей стоимости всех заказов, округленный до 2-х знаков после запятой, со значком процента через пробел после самой величины (назвав колонку Ratio).
+
+SET @S:=(Select SUM(Price*Quantity) from voodoo.OrderDetails
+JOIN voodoo.Products ON Products.ProductID=OrderDetails.ProductID);
+SET @S1:=(Select SUM(Price*Quantity) from voodoo.OrderDetails
+JOIN voodoo.Products ON Products.ProductID=OrderDetails.ProductID
+JOIN voodoo.Orders ON Orders.OrderID=OrderDetails.OrderID
+JOIN voodoo.Shippers ON Shippers.ShipperID=Orders.ShipperID
+GROUP BY Phone
+HAVING Phone=(Select Phone from voodoo.Shippers Where Phone IN (Select Phone from voodoo.Suppliers)));
+SET @a:=(Select ROUND((SUM/@S1*100),2) As Q
+FROM (Select CONCAT(Employees.FirstName,' ',Employees.LastName) AS EmployeeName, SUM(Price*Quantity) AS SUM from voodoo.OrderDetails
+JOIN voodoo.Products ON Products.ProductID=OrderDetails.ProductID
+JOIN voodoo.Orders ON Orders.OrderID=OrderDetails.OrderID
+JOIN voodoo.Employees ON Employees.EmployeeID=Orders.EmployeeID
+GROUP BY EmployeeName Having EmployeeName IN (Select CONCAT(Employees.FirstName,' ',Employees.LastName) AS EmployeeName from voodoo.Employees
+WHERE CHAR_LENGTH(Notes)=(Select MAX(CHAR_LENGTH(Notes)) from voodoo.Employees))) As Base);
+SELECT EmployeeName, CONCAT(R,' %') As Ratio from (Select EmployeeName, ROUND((SUM/@S*100),2) As R
+FROM (Select CONCAT(Employees.FirstName,' ',Employees.LastName) AS EmployeeName, SUM(Price*Quantity) AS SUM from voodoo.OrderDetails
+JOIN voodoo.Products ON Products.ProductID=OrderDetails.ProductID
+JOIN voodoo.Orders ON Orders.OrderID=OrderDetails.OrderID
+JOIN voodoo.Employees ON Employees.EmployeeID=Orders.EmployeeID
+GROUP BY EmployeeName) AS Base Having R>@a) As Bas;
+
++------------------+---------+
+| EmployeeName     | Ratio   |
++------------------+---------+
+| Margaret Peacock | 27.35 % |
++------------------+---------+
