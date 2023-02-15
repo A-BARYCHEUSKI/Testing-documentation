@@ -1,0 +1,5721 @@
+{
+	"info": {
+		"_postman_id": "5ad5bef7-b762-4315-b900-d3184a4b8416",
+		"name": "Profiler",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22893318"
+	},
+	"item": [
+		{
+			"name": "Sign IN",
+			"item": [
+				{
+					"name": "Token",
+					"item": [
+						{
+							"name": "Saving valid values in all fields auth",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"name\": \"Tim\",\r\n  \"surname\": \"Roth\",\r\n  \"countryId\": 14,\r\n  \"email\": \"tim.roth@itbootcamp.org\",\r\n  \"phoneCodeId\": 1,\r\n  \"cellPhone\": \"297778899\",\r\n  \"positionId\": 2}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/profile",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update previously saved personal details with Authorization",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"name\": \"Olga\",\r\n  \"surname\": \"Petrova\",\r\n  \"countryId\": 150,\r\n  \"email\": \"o.petrova@it-bootcamp.org\",\r\n  \"phoneCodeId\": 150,\r\n  \"cellPhone\": \"777\",\r\n  \"positionId\": 15}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/profile",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get list of countries with token Copy",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/countries",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"countries"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var options = {",
+									"  'method': 'POST',",
+									"  'url': 'http://192.168.205.11:8080/api/v1/auth/login',",
+									"  'headers': {",
+									"    'Content-Type': 'application/json'",
+									"  },",
+									"'body': {",
+									"    mode: \"raw\",",
+									"    raw: JSON.stringify(",
+									"  {",
+									"    \"email\":  \"test@it-academy.by\", \"password\": \"aZ123f@#$\"",
+									"  }",
+									"    ),",
+									"    options: {",
+									"        raw: {",
+									"            language: \"json\"",
+									"        }",
+									"    }",
+									"}",
+									"};",
+									"",
+									"pm.sendRequest(options, function (error, response) {",
+									"    if (error) throw new Error(error);",
+									"    var jsonData = response.json();",
+									"    pm.environment.set(\"Token\", jsonData.token);",
+									"});"
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Enter account using correct email and correct password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"{\r",
+									"    var jsonData = JSON.parse(responseBody);\r",
+									"    pm.environment.set(\"Token\", jsonData.token)}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"email\":  \"test@test.test\", \"password\": \"test\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Url}}/api/v1/auth/login",
+							"protocol": "http",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Enter account using incorrect email and correct password",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " { \"email\":  \"user@it-academy.by\", \"password\": \"aZ123f@#$\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Url}}/api/v1/auth/login",
+							"protocol": "http",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Enter account using correct email and incorrect password",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " { \"email\":  \"test@it-academy.by\", \"password\": \"aZ\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Url}}/api/v1/auth/login",
+							"protocol": "http",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Enter account using correct email in UpperCase and correct password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"{\r",
+									"    var jsonData = JSON.parse(responseBody);\r",
+									"    pm.environment.set(\"Token\", jsonData.token)}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"email\":  \"TEST@IT-academy.By\", \"password\": \"aZ123f@#$\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Url}}/api/v1/auth/login",
+							"protocol": "http",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Enter account using spaces before and after correct email",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"email\":  \"     test@it-academy.by     \", \"password\": \"aZ123f@#$\"} ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Url}}/api/v1/auth/login",
+							"protocol": "http",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Enter account using min email value and min password value",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"email\": \"a@i.by\", \"password\": \"Kq%12305\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Url}}/api/v1/auth/login",
+							"protocol": "http",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Enter account using correct email and empty password",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " { \"email\": \"test@it-academy.by\", \"password\": null}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Url}}/api/v1/auth/login",
+							"protocol": "http",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Enter account using empty email and correct password",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " { \"email\": null, \"password\": \"Kq%12305\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Url}}/api/v1/auth/login",
+							"protocol": "http",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send a request without email",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " { \"password\": \"aZ123f@#$\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Url}}/api/v1/auth/login",
+							"protocol": "http",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validation of valid values in email field (max field length)",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " { \"email\":  \"FG7h66ktlRs134V506T79pw2sfgpgsdl@it-Academy.ma.byg\", \"password\": \"Kq%12306\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Url}}/api/v1/auth/login",
+							"protocol": "http",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Maximum+1 length of field \"Email\"",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"email\":  \"a.fghdkllls1234567898900FG0w000essdl@it-academy.byg\", \"password\": \"Kq%12307\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Url}}/api/v1/auth/login",
+							"protocol": "http",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validation of invalid values in email field",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"email\":  \" mail@-m.ru\", \"password\": \"aZ123f@#$\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Url}}/api/v1/auth/login",
+							"protocol": "http",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "System time is Minsk time zone",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"email\":  \"user@it-academy.by\", \"password\": \"aZ123f@#$\"} ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://192.168.205.10:8080/api/v1/auth/login",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"205",
+								"10"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Enter account using incorrect email and empty password",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " { \"email\":  \"a2@i.by\", \"password\": null}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Url}}/api/v1/auth/login",
+							"protocol": "http",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Enter account using empty email and incorrect password",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " { \"email\": null, \"password\": \"admin1234\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Url}}/api/v1/auth/login",
+							"protocol": "http",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Enter account using incorrect email and incorrect password",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " { \"email\":  \"user@it-academy.by\", \"password\": \"aZ\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Url}}/api/v1/auth/login",
+							"protocol": "http",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Enter account using empty email and empty password",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"email\": null, \"password\": null}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Url}}/api/v1/auth/login",
+							"protocol": "http",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send a request with header in another register",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"EMAIL\":  \"test@it-academy.by\", \"password\": \"aZ123f@#$\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Url}}/api/v1/auth/login",
+							"protocol": "http",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SQL injection into fields",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"email\":  xxx@xxx.xxx' OR 1 = 1 LIMIT 1 -- ', \"password\": \"xxx\" } ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Url}}/api/v1/auth/login",
+							"protocol": "http",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change method POST to GET",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " { \"email\":  \"test@it-academy.by\", \"password\": \"aZ123f@#$\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Url}}/api/v1/auth/login",
+							"protocol": "http",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change method POST to PUT",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " { \"email\": null, \"password\": \"admin1234\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Url}}/api/v1/auth/login",
+							"protocol": "http",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change method POST to DELETE",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " { \"email\": null, \"password\": \"admin1234\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Url}}/api/v1/auth/login",
+							"protocol": "http",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Personal details",
+			"item": [
+				{
+					"name": "Filling in Personal details",
+					"item": [
+						{
+							"name": "Saving valid values in all fields",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{Token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"name\": \"Tim\",\r\n  \"surname\": \"Roth\",\r\n  \"countryId\": 14,\r\n  \"email\": \"tim.roth@itbootcamp.org\",\r\n  \"phoneCodeId\": 1,\r\n  \"cellPhone\": \"297778899\",\r\n  \"positionId\": 2}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/profile",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Deleting valid inputted values in all the fields",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{Token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"name\": null,\r\n  \"surname\": null,\r\n  \"countryId\": null,\r\n  \"email\": null,\r\n  \"phoneCodeId\": 1,\r\n  \"cellPhone\": null,\r\n  \"positionId\": null }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/profile",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Saving Min valid values in fields \"Name\",\"Surname\",\"Cell phone number\",\"Email\"",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{Token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": " {\"name\": \"a\",\r\n  \"surname\": \"B\",\r\n  \"email\": \"z@t.qw\",\r\n  \"cellPhone\": \"2\",\r\n  \"phoneCodeId\": 1}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/profile",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Saving Max valid values in fields \"Name\",\"Surname\",\"Cell phone number\",\"Email\"",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{Token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"name\": \"QWEqqq-ySFDF yuyt-ud jGBJksn kPPP PPK-OKnj-DaF-fKK\",\r\n  \"surname\": \"QWEqqq-ySFDF yuyt-ud jGBJksn kPPq PPK-OKnj-DaF-fKK\",\r\n  \"countryId\": 14,\r\n  \"email\": \"FG7h66ktlRs134V506T79pw2sfgpgsdl@it-Academy.mavbyg\",\r\n  \"phoneCodeId\": 1,\r\n  \"cellPhone\": \"1234567890123456789012345\",\r\n  \"positionId\": 2}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/profile",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending invalid values in \"Name\" field",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{Token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"name\": \"An- na\" }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/profile",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending invalid values in \"Surname\" field",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{Token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"surname\":  \"Иван- ова\" }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/profile",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending invalid values in \"Email\" field",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{Token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"email\": \"mail@-m.ru\" }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/profile",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending invalid values in \"Cell phone number\" field",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{Token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"cellPhone\": 12345678901234567890123456 }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/profile",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending invalid values in \"Country\" field",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{Token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"countryId\": 184 }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/profile",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending invalid values in \"Position\" field",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{Token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"positionId\": {{Invalid value}} }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/profile",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending invalid values in \"Phonecode\" field",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{Token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"phoneCodeId\": {{Invalid value}} }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/profile",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Spaces before and after entered values in the fields \"Name\", \"Surname\", \"Email\" are deleted automatically",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{Token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"name\": \"   Tim   \",\r\n  \"surname\": \"   Roth   \",\r\n  \"countryId\": 14,\r\n  \"email\": \"   tim.roth@itbootcamp.org   \",\r\n  \"phoneCodeId\": 1,\r\n  \"cellPhone\": \"297778899\",\r\n  \"positionId\": 2}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/profile",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending invalid values in all fields",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{Token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"name\": \"123\",\r\n  \"surname\": \"567\",\r\n  \"countryId\": 2000,\r\n  \"email\": \"%pw2sfgpgsdl@it-Academy.mavbyg\",\r\n  \"phoneCodeIda\": 3000,\r\n  \"cellPhone\": \"asd\",\r\n  \"positionId\": 222}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/profile",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Change method from POST to GET/PUT/Delete",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{Token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"name\": \"Tim\",\r\n  \"surname\": \"Roth\",\r\n  \"countryId\": 14,\r\n  \"email\": \"   tim.roth@itbootcamp.org   \",\r\n  \"phoneCodeId\": 1,\r\n  \"cellPhone\": \"297778899\",\r\n  \"positionId\": 2}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/profile",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Send a request for adding information into Personal details with header in another register",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{Token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": " {\"NAME\": \" Tim\",\r\n  \"SURNAME\": \"Roth\",\r\n  \"COUNTRYID\": 14,\r\n  \"EMAIL\": \"   tim.roth@itbootcamp.org   \",\r\n  \"PHONECODEID\": 1,\r\n  \"CELLPHONE\": \"297778899\",\r\n  \"POSITIONID\": 2}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/profile",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Update Personal details",
+					"item": [
+						{
+							"name": "Update previously saved data with token",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Olga\",\r\n    \"surname\": \"Petrova\",\r\n    \"countryId\": 150,\r\n    \"country\": \"Singapore\",\r\n    \"email\": \"o.petrova@it-bootcamp.org\",\r\n    \"phoneCodeId\": 150,\r\n    \"phoneCode\": 232,\r\n    \"cellPhone\": \"777\",\r\n    \"positionId\": 15,\r\n    \"position\": \"QA automation Python\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/profile",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update previously saved data without token",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"name\": \"Olga\",\r\n  \"surname\": \"Petrova\",\r\n  \"countryId\": 150,\r\n  \"email\": \"o.petrova@it-bootcamp.org\",\r\n  \"phoneCodeId\": 150,\r\n  \"cellPhone\": \"777\",\r\n  \"positionId\": 15}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/profile",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Deleting valid inputted values in all the fields",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{Token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"name\": null,\r\n  \"surname\": null,\r\n  \"countryId\": null,\r\n  \"email\": null,\r\n  \"phoneCodeId\": 1,\r\n  \"cellPhone\": null,\r\n  \"positionId\": null }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/profile",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Saving Min valid values in fields \"Name\",\"Surname\",\"Cell phone number\",\"Email\"",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " {\"name\": \"a\",\r\n  \"surname\": \"B\",\r\n  \"email\": \"z@t.qw\",\r\n  \"cellPhone\": \"2\",\r\n  \"phoneCodeId\": 1}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/profile",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Saving Max valid values in fields \"Name\",\"Surname\",\"Cell phone number\",\"Email\"",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{Token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{ \"name\": \"QWEqqq-ySFDF yuyt-ud jGBJksn kPPP PPK-OKnj-DaF-fKK\",\r\n    \"surname\": \"QWEqqq-ySFDF yuyt-ud jGBJksn kPPq PPK-OKnj-DaF-fKK\",\r\n    \"email\": \"FG7h66ktlRs134V506T79pw2sfgpgsdl@it-Academy.mavbyg\",\r\n    \"phoneCodeId\": 1,\r\n    \"cellPhone\": \"1234567890123456789012345\"}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/profile",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending invalid values in \"Name\" field",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"name\": \"Nicky' or extractvalue(1,concat(0x7e,database())) or'\" }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/profile",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending invalid values in \"Surname\" field",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"surname\":  \"Иван- ова\" }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/profile",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending invalid values in \"Email\" field",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"email\": \"mail@-m.ru\" }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/profile",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending invalid values in \"Cell phone number\" field",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"cellPhone\": \"1 2 3 4\" }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/profile",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending invalid values in \"Country\" field",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"countryId\": 184 }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/profile",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending invalid values in \"Position\" field",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"positionId\": 23 }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/profile",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending invalid values in \"Phonecode\" field",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"phoneCodeId\": 184 }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/profile",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Spaces before and after entered values in the fields \"Name\", \"Surname\", \"Email\" are deleted automatically",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"name\": \"   Tim   \",\r\n  \"surname\": \"   Roth   \",\r\n  \"countryId\": 14,\r\n  \"email\": \"   tim.roth@itbootcamp.org   \",\r\n  \"phoneCodeId\": 1,\r\n  \"cellPhone\": \"297778899\",\r\n  \"positionId\": 2}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/profile",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending invalid values in all fields",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"name\": \"123\",\r\n  \"surname\": \"567\",\r\n  \"countryId\": 2000,\r\n  \"email\": \"%pw2sfgpgsdl@it-Academy.mavbyg\",\r\n  \"phoneCodeIda\": 3000,\r\n  \"cellPhone\": \"asd\",\r\n  \"positionId\": 222}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/profile",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Change method from PUT to POST/GET/Delete",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{Token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"name\": \"Olga\",\r\n  \"surname\": \"Petrova\",\r\n  \"countryId\": 150,\r\n  \"email\": \"o.petrova@it-bootcamp.org\",\r\n  \"phoneCodeId\": 150,\r\n  \"cellPhone\": \"777\",\r\n  \"positionId\": 15}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/profile",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Send a request for adding information into Personal details with header in another register",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " {\"NAME\": \"Tim\",\r\n  \"SURNAME\": \"Roth\",\r\n  \"COUNTRYID\": 14,\r\n  \"EMAIL\": \"   tim.roth@itbootcamp.org   \",\r\n  \"PHONECODEID\": 1,\r\n  \"CELLPHONE\": \"297778899\",\r\n  \"POSITIONID\": 2}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/profile",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "{{Token}}",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Get list of countries with token",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{Token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Url}}/api/v1/countries",
+							"protocol": "http",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"countries"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get list of countries without token",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Url}}/api/v1/countries",
+							"protocol": "http",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"countries"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change method for getting countries to post/put/delete",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{Token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Url}}/api/v1/countries",
+							"protocol": "http",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"countries"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get list of positions with token",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{Token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Url}}/api/v1/positions",
+							"protocol": "http",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"positions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get list of positions without token",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Url}}/api/v1/positions",
+							"protocol": "http",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"positions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change method for getting positions to post/put/delete",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{Token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Url}}/api/v1/positions",
+							"protocol": "http",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"positions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get list of Сountry code of the phone number with token",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{Token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Url}}/api/v1/phonecodes",
+							"protocol": "http",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"phonecodes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get list of Сountry code of the phone number without token",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Url}}/api/v1/phonecodes",
+							"protocol": "http",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"phonecodes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change method for getting phonecodes to post/put/delete",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{Token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Url}}/api/v1/phonecodes",
+							"protocol": "http",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"phonecodes"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var options = {",
+							"  'method': 'POST',",
+							"  'url': 'http://192.168.205.11:8080/api/v1/auth/login',",
+							"  'headers': {",
+							"    'Content-Type': 'application/json'",
+							"  },",
+							"'body': {",
+							"    mode: \"raw\",",
+							"    raw: JSON.stringify(",
+							"  {",
+							"    \"email\":  \"test@it-academy.by\", \"password\": \"aZ123f@#$\"",
+							"  }",
+							"    ),",
+							"    options: {",
+							"        raw: {",
+							"            language: \"json\"",
+							"        }",
+							"    }",
+							"}",
+							"};",
+							"",
+							"pm.sendRequest(options, function (error, response) {",
+							"    if (error) throw new Error(error);",
+							"    var jsonData = response.json();",
+							"    pm.environment.set(\"Token\", jsonData.token);",
+							"});"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Personal cabinet",
+			"item": [
+				{
+					"name": "Get personal details with token",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{Token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Url}}/api/v1/profile",
+							"protocol": "http",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get personal details without token",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Url}}/api/v1/profile",
+							"protocol": "http",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change method to POST/PUT/DELETE",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{Token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Url}}/api/v1/profile",
+							"protocol": "http",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var options = {",
+							"  'method': 'POST',",
+							"  'url': 'http://192.168.205.11:8080/api/v1/auth/login',",
+							"  'headers': {",
+							"    'Content-Type': 'application/json'",
+							"  },",
+							"'body': {",
+							"    mode: \"raw\",",
+							"    raw: JSON.stringify(",
+							"        {",
+							"    \"email\":  \"test@it-academy.by\", \"password\": \"aZ123f@#$\"",
+							"  }",
+							"    ),",
+							"    options: {",
+							"        raw: {",
+							"            language: \"json\"",
+							"        }",
+							"    }",
+							"}",
+							"};",
+							"",
+							"pm.sendRequest(options, function (error, response) {",
+							"    if (error) throw new Error(error);",
+							"    var jsonData = response.json();",
+							"    pm.environment.set(\"Token\", jsonData.token);",
+							"});"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "CV",
+			"item": [
+				{
+					"name": "Get CV",
+					"item": [
+						{
+							"name": "Get all CVs with token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"{\r",
+											"    var jsonData = JSON.parse(responseBody);\r",
+											"    var c = jsonData[0];\r",
+											"    pm.environment.set(\"Uuid\", c.uuid);}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all CVs for user with no CVs",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var options = {\r",
+											"  'method': 'POST',\r",
+											"  'url': 'http://192.168.205.11:8080/api/v1/auth/login',\r",
+											"  'headers': {\r",
+											"    'Content-Type': 'application/json'\r",
+											"  },\r",
+											"'body': {\r",
+											"    mode: \"raw\",\r",
+											"    raw: JSON.stringify(\r",
+											"  {\r",
+											"    \"email\":  \"test@it-academy.by\", \"password\": \"aZ123f@#$\"\r",
+											"  }\r",
+											"    ),\r",
+											"    options: {\r",
+											"        raw: {\r",
+											"            language: \"json\"\r",
+											"        }\r",
+											"    }\r",
+											"}\r",
+											"};\r",
+											"\r",
+											"pm.sendRequest(options, function (error, response) {\r",
+											"    if (error) throw new Error(error);\r",
+											"    var jsonData = response.json();\r",
+											"    pm.environment.set(\"Token\", jsonData.token);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all CVs without token",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Change method to POST/PUT/DELETE Copy",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{Token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get exact CV with token",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get exact CV for user with no CV",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var options = {\r",
+											"  'method': 'POST',\r",
+											"  'url': 'http://192.168.205.11:8080/api/v1/auth/login',\r",
+											"  'headers': {\r",
+											"    'Content-Type': 'application/json'\r",
+											"  },\r",
+											"'body': {\r",
+											"    mode: \"raw\",\r",
+											"    raw: JSON.stringify(\r",
+											"  {\r",
+											"    \"email\":  \"test@it-academy.by\", \"password\": \"aZ123f@#$\"\r",
+											"  }\r",
+											"    ),\r",
+											"    options: {\r",
+											"        raw: {\r",
+											"            language: \"json\"\r",
+											"        }\r",
+											"    }\r",
+											"}\r",
+											"};\r",
+											"\r",
+											"pm.sendRequest(options, function (error, response) {\r",
+											"    if (error) throw new Error(error);\r",
+											"    var jsonData = response.json();\r",
+											"    pm.environment.set(\"Token\", jsonData.token);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get exact CV without token",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Change method to POST/PUT/DELETE for exact CV",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{Token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Saving CV1",
+					"item": [
+						{
+							"name": "Sending form with valid values in mandatory fields with token",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " {  \r\n  \"imageUuid\": null,\r\n  \"name\": \"Sveta\",\r\n  \"surname\": \"fg\",\r\n  \"positionId\": 5,\r\n  \"countryId\": 22,\r\n  \"city\": \"Riga\",\r\n  \"isReadyToRelocate\": false,\r\n  \"isReadyForRemoteWork\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending form with valid values in mandatory fields without token",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{  \r\n  \"imageUuid\": null,\r\n  \"name\": \"Olga\",\r\n  \"surname\": \"Petrova\",\r\n  \"positionId\": 15,\r\n  \"countryId\": 150,\r\n  \"city\": \"Minsk\",\r\n  \"isReadyToRelocate\": false,\r\n  \"isReadyForRemoteWork\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending more than 5 CVS",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{  \r\n  \"imageUuid\": null,\r\n  \"name\": \"Olga\",\r\n  \"surname\": \"Petrova\",\r\n  \"positionId\": 15,\r\n  \"countryId\": 150,\r\n  \"city\": \"Minsk\",\r\n  \"isReadyToRelocate\": false,\r\n  \"isReadyForRemoteWork\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending form with valid values in all fields",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"imageUuid\": \"ad668f3e-4f3e-4fa5-96ae-34956d749ac8\",\r\n\"name\": \"Olga\", \"surname\": \"Petrova\",\r\n\"countryId\": 150,\r\n\"positionId\": 15,\r\n\"city\": \"Minsk\",\r\n\"isReadyToRelocate\": true,\r\n\"isReadyForRemoteWork\": true}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending form when one or more mandatory fields are empty",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{  \r\n  \"imageUuid\": null,\r\n  \"name\": null,\r\n  \"surname\": null,\r\n  \"positionId\": 5,\r\n  \"countryId\": 120,\r\n  \"city\": null,\r\n  \"isReadyToRelocate\": true,\r\n  \"isReadyForRemoteWork\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending form when one or more mandatory fields are empty and optional fields are filled in with valid values",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{  \r\n  \"imageUuid\": \"ad668f3e-4f3e-4fa5-96ae-34956d749ac8\",\r\n  \"name\": null,\r\n  \"surname\": null,\r\n  \"positionId\": 15,\r\n  \"countryId\": 150,\r\n  \"city\": null,\r\n  \"isReadyToRelocate\": true,\r\n  \"isReadyForRemoteWork\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending Min valid values in mandatory fields",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"imageUuid\": null,\r\n\"name\": \"O\",\r\n\"surname\": \"P\",\r\n\"countryId\": 14,\r\n\"positionId\": 5, \r\n\"city\": \"M\", \r\n\"isReadyToRelocate\": false,   \"isReadyForRemoteWork\": false}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending Max valid values in fields \"Name\", \"Surname\",\"City\"",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"imageUuid\": null,\r\n\"name\": \"QWEqqq-ySFDF yuyt-ud jGBJksn kPPP PPK-OKnj-DaF-fKK\",\r\n\"surname\": \"QWEqqq-ySFDF yuyt-ud jGBJksn kPPP PPK-OKnj-DaF-fKK\",\r\n\"countryId\": 14,\r\n\"positionId\": 5,\r\n\"city\": \"QWEqqq-ySFDF yuyt-ud jGBJksn kPPP PPK-OKnj-DaF-fKK\",\r\n\"isReadyToRelocate\": true,\r\n\"isReadyForRemoteWork\": true}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending invalid values in field \"Name\"",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{  \r\n  \"imageUuid\": null,\r\n  \"name\": \"An- na\",\r\n  \"surname\": \"Ivanova\",\r\n  \"positionId\": 7,\r\n  \"countryId\": 22,\r\n  \"city\": \"Minsk\",\r\n  \"isReadyToRelocate\": true,\r\n  \"isReadyForRemoteWork\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending invalid values in field \"Surname\"",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{  \r\n  \"imageUuid\": null,\r\n  \"name\": \"Olga\",\r\n  \"surname\": \"QWEqqq-ySFDF yuyt-ud jGBJksn kPPP PPK-OKnj-DaF-fKKa\",\r\n  \"positionId\": 7,\r\n  \"countryId\": 22,\r\n  \"city\": \"Minsk\",\r\n  \"isReadyToRelocate\": false,\r\n  \"isReadyForRemoteWork\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending invalid values in field \"City\"",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{  \r\n  \"imageUuid\": null,\r\n  \"name\": \"Olga\",\r\n  \"surname\": \"Ivanova\",\r\n  \"positionId\": 7,\r\n  \"countryId\": 22,\r\n  \"city\": \"\",\r\n  \"isReadyToRelocate\": false,\r\n  \"isReadyForRemoteWork\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending invalid values in field \"Position\"",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{  \r\n  \"imageUuid\": null,\r\n  \"name\": \"Olga\",\r\n  \"surname\": \"Ivanova\",\r\n  \"positionId\": 50,\r\n  \"countryId\": 22,\r\n  \"city\": \"Minsk\",\r\n  \"isReadyToRelocate\": false,\r\n  \"isReadyForRemoteWork\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending invalid values in field \"Country\"",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{  \r\n  \"imageUuid\": null,\r\n  \"name\": \"Olga\",\r\n  \"surname\": \"Ivanova\",\r\n  \"positionId\": 7,\r\n  \"countryId\": 0,\r\n  \"city\": \"Minsk\",\r\n  \"isReadyToRelocate\": false,\r\n  \"isReadyForRemoteWork\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending invalid values in field \"Foto\"",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " {  \r\n  \"imageUuid\": \"%^&&*\",\r\n  \"name\": \"Olga\",\r\n  \"surname\": \"Ivanova\",\r\n  \"positionId\": 7,\r\n  \"countryId\": 22,\r\n  \"city\": \"Minsk\",\r\n  \"isReadyToRelocate\": false,\r\n  \"isReadyForRemoteWork\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending invalid values in box \"Ready to relocate\"",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " {  \r\n  \"imageUuid\": null,\r\n  \"name\": \"Olga\",\r\n  \"surname\": \"Ivanova\",\r\n  \"positionId\": 7,\r\n  \"countryId\": 22,\r\n  \"city\": \"Minsk\",\r\n  \"isReadyToRelocate\": null,\r\n  \"isReadyForRemoteWork\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending invalid values in box \"Ready for remote work\"",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " {  \r\n  \"imageUuid\": null,\r\n  \"name\": \"Olga\",\r\n  \"surname\": \"Ivanova\",\r\n  \"positionId\": 7,\r\n  \"countryId\": 22,\r\n  \"city\": \"Minsk\",\r\n  \"isReadyToRelocate\": false,\r\n  \"isReadyForRemoteWork\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending form with invalid values in all fields",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{  \r\n  \"imageUuid\": 123,\r\n  \"name\": 123,\r\n  \"surname\": 123,\r\n  \"positionId\": 123,\r\n  \"countryId\": 205,\r\n  \"city\": 123,\r\n  \"isReadyToRelocate\": null,\r\n  \"isReadyForRemoteWork\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending form with spaces before and after valid values in fields \"Name\", \"Surname\", \"City\"",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"imageUuid\": null,  \"name\": \"       Olga       \", \"surname\": \"        Petrova       \", \"countryId\": 150, \"positionId\": 15,  \"city\": \"        Minsk        \",   \"isReadyToRelocate\": false,   \"isReadyForRemoteWork\": false}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Change method from POST to GET/PUT/Delete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"imageUuid\": null,  \"name\": \"Olga\", \"surname\": \"Petrova\", \"countryId\": 150, \"positionId\": 15,  \"city\": \"Minsk\",   \"isReadyToRelocate\": false,   \"isReadyForRemoteWork\": false}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Send a request for adding information into Personal details with header in another register",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"imageUuid\": null,  \"Name\": \"Olga\", \"Surname\": \"Petrova\", \"countryId\": 150, \"positionId\": 15,  \"CITY\": \"Minsk\",   \"isReadyToRelocate\": false,   \"isReadyForRemoteWork\": false}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Update CV1",
+					"item": [
+						{
+							"name": "Update form with valid values in mandatory fields with token",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"imageUuid\": null,  \"name\": \"Elena\", \"surname\": \"Sidorova\", \"countryId\": 20, \"positionId\": 20,  \"city\": \"Brest\",   \"isReadyToRelocate\": false,   \"isReadyForRemoteWork\": false}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CV of other user",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"imageUuid\": null,  \"name\": \"Elena\", \"surname\": \"Sidorova\", \"countryId\": 20, \"positionId\": 20,  \"city\": \"Brest\",   \"isReadyToRelocate\": false,   \"isReadyForRemoteWork\": false}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/dfa83798-82cc-42c1-958a-2422c347c1b5",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"dfa83798-82cc-42c1-958a-2422c347c1b5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update form with valid values in mandatory fields without token",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"imageUuid\": null,  \"name\": \"Elena\", \"surname\": \"Sidorova\", \"countryId\": 25, \"positionId\": 7,  \"city\": \"Brest\",   \"isReadyToRelocate\": false,   \"isReadyForRemoteWork\": false}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update form with valid values in mandatory fields 15 times",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{  \r\n  \"imageUuid\": null,\r\n  \"name\": \"Olga\",\r\n  \"surname\": \"Petrova\",\r\n  \"positionId\": 32,\r\n  \"countryId\": 150,\r\n  \"city\": \"Minsk\",\r\n  \"isReadyToRelocate\": false,\r\n  \"isReadyForRemoteWork\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update form with valid values in all fields",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"imageUuid\": \"33c34d2a-a23a-45c4-8ea0-f1f7f20745ea\",  \"name\": \"Elena\", \"surname\": \"Ivanova\", \"countryId\": 20, \"positionId\": 12,  \"city\": \"Minsk\",   \"isReadyToRelocate\": true,   \"isReadyForRemoteWork\": true}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update form when one or more mandatory fields are empty",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{  \r\n  \"imageUuid\": null,\r\n  \"name\": null,\r\n  \"surname\": \"Elena\",\r\n  \"positionId\": 5,\r\n  \"countryId\": 120,\r\n  \"city\": null,\r\n  \"isReadyToRelocate\": true,\r\n  \"isReadyForRemoteWork\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update form when one or more mandatory fields are empty and optional fields are filled in with valid values",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{  \r\n  \"imageUuid\": \"ad668f3e-4f3e-4fa5-96ae-34956d749ac8\",\r\n  \"name\": null,\r\n  \"surname\": null,\r\n  \"positionId\": 15,\r\n  \"countryId\": 150,\r\n  \"city\": null,\r\n  \"isReadyToRelocate\": true,\r\n  \"isReadyForRemoteWork\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update form with Min valid values in mandatory fields",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"imageUuid\": null,\r\n\"name\": \"O\",\r\n\"surname\": \"P\",\r\n\"countryId\": 14,\r\n\"positionId\": 5, \r\n\"city\": \"M\", \r\n\"isReadyToRelocate\": false,   \"isReadyForRemoteWork\": false}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update form with Max valid values in fields \"Name\", \"Surname\",\"City\"",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"imageUuid\": null,\r\n\"name\": \"QWEqqq-ySFDF yuyt-ud jGBJksn kPPP PPK-OKnj-DaF-fKK\",\r\n\"surname\": \"QWEqqq-ySFDF yuyt-ud jGBJksn kPPP PPK-OKnj-DuF-fKK\",\r\n\"countryId\": 14,\r\n\"positionId\": 5,\r\n\"city\": \"QWEqqq-ySFDF yuyt-ud jGBJksn kPPP PPK-OKnj-DaF-fKK\",\r\n\"isReadyToRelocate\": true,\r\n\"isReadyForRemoteWork\": true}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update form with invalid values in field \"Name\"",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{  \r\n  \"imageUuid\": null,\r\n  \"name\": \"An- na\",\r\n  \"surname\": \"Ivanova\",\r\n  \"positionId\": 7,\r\n  \"countryId\": 22,\r\n  \"city\": \"Minsk\",\r\n  \"isReadyToRelocate\": true,\r\n  \"isReadyForRemoteWork\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update form with invalid values in field \"Surname\"",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{  \r\n  \"imageUuid\": null,\r\n  \"name\": \"Olga\",\r\n  \"surname\": \"Ivan -ova\",\r\n  \"positionId\": 7,\r\n  \"countryId\": 22,\r\n  \"city\": \"Minsk\",\r\n  \"isReadyToRelocate\": false,\r\n  \"isReadyForRemoteWork\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update form with invalid values in field \"City\"",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{  \r\n  \"imageUuid\": null,\r\n  \"name\": \"Olga\",\r\n  \"surname\": \"QWEqqq-ySFDF yuyt-ud jGBJksn kPPP PPK-OKnj-DaF-fKKa\",\r\n  \"positionId\": 7,\r\n  \"countryId\": 22,\r\n  \"city\": \"Mi -nsk\",\r\n  \"isReadyToRelocate\": false,\r\n  \"isReadyForRemoteWork\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update form with invalid values in field \"Position\"",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{  \r\n  \"imageUuid\": null,\r\n  \"name\": \"Olga\",\r\n  \"surname\": \"Ivanova\",\r\n  \"positionId\": 126,\r\n  \"countryId\": 22,\r\n  \"city\": \"Minsk\",\r\n  \"isReadyToRelocate\": false,\r\n  \"isReadyForRemoteWork\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update form with invalid values in field \"Country\"",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{  \r\n  \"imageUuid\": null,\r\n  \"name\": \"Olga\",\r\n  \"surname\": \"Ivanova\",\r\n  \"positionId\": 7,\r\n  \"countryId\": 205,\r\n  \"city\": \"Minsk\",\r\n  \"isReadyToRelocate\": false,\r\n  \"isReadyForRemoteWork\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update form with invalid values in field \"Foto\"",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " {  \r\n  \"imageUuid\": \"    \",\r\n  \"name\": \"Olga\",\r\n  \"surname\": \"Ivanova\",\r\n  \"positionId\": 7,\r\n  \"countryId\": 22,\r\n  \"city\": \"Minsk\",\r\n  \"isReadyToRelocate\": false,\r\n  \"isReadyForRemoteWork\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update form with invalid values in box \"Ready to relocate\"",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " {  \r\n  \"imageUuid\": null,\r\n  \"name\": \"Olga\",\r\n  \"surname\": \"Ivanova\",\r\n  \"positionId\": 7,\r\n  \"countryId\": 22,\r\n  \"city\": \"Minsk\",\r\n  \"isReadyToRelocate\": null,\r\n  \"isReadyForRemoteWork\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update form with invalid values in box \"Ready for remote work\"",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " {  \r\n  \"imageUuid\": null,\r\n  \"name\": \"Olga\",\r\n  \"surname\": \"Ivanova\",\r\n  \"positionId\": 7,\r\n  \"countryId\": 22,\r\n  \"city\": \"Minsk\",\r\n  \"isReadyToRelocate\": false,\r\n  \"isReadyForRemoteWork\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update form with invalid values in all fields",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{  \r\n  \"imageUuid\": 123,\r\n  \"name\": 123,\r\n  \"surname\": 123,\r\n  \"positionId\": 123,\r\n  \"countryId\": 205,\r\n  \"city\": 123,\r\n  \"isReadyToRelocate\": null,\r\n  \"isReadyForRemoteWork\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update form with spaces before and after valid values in fields \"Name\", \"Surname\", \"City\"",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"imageUuid\": null,  \"name\": \"       Olga       \", \"surname\": \"        Petrova       \", \"countryId\": 150, \"positionId\": 15,  \"city\": \"        Minsk        \",   \"isReadyToRelocate\": false,   \"isReadyForRemoteWork\": false}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Change method from POST to GET/PUT/Delete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"imageUuid\": null,  \"name\": \"Olga\", \"surname\": \"Petrova\", \"countryId\": 150, \"positionId\": 15,  \"city\": \"Minsk\",   \"isReadyToRelocate\": false,   \"isReadyForRemoteWork\": false}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update form with request headers in UPPERCASE",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"imageUuid\": null,  \"Name\": \"Olga\", \"Surname\": \"Petrova\", \"countryId\": 150, \"positionId\": 15,  \"CITY\": \"Minsk\",   \"isReadyToRelocate\": false,   \"isReadyForRemoteWork\": false}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Saving CV2",
+					"item": [
+						{
+							"name": "Sending form with valid values in mandatory fields with token",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"phoneCodeId\": 15,\r\n\"phoneNumber\": \"291234455\",\r\n\"email\": \"info@mail.com\",\r\n\"skype\": null,\r\n\"linkedin\": \"www.linkedin\",\r\n\"portfolio\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}/contacts",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}",
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending form with valid values in mandatory fields without token",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"phoneCodeId\": 15,\r\n\"phoneNumber\": \"291234455\",\r\n\"email\": \"info@mail.com\",\r\n\"skype\": null,\r\n\"linkedin\": \"www.linkedin\",\r\n\"portfolio\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}/contacts",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}",
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending form with valid values in all fields",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"phoneCodeId\":  15,\r\n  \"phoneNumber\": \"291234455\",\r\n  \"email\": \"INFO@MAIL.by\",\r\n  \"skype\": \"Facebook: live\",\r\n  \"linkedin\": \"https://clck.ru/F9yPV\",\r\n  \"portfolio\": \"h\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}/contacts",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}",
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending form when one or more mandatory fields are empty",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"phoneCodeId\":  15,\r\n  \"phoneNumber\": null,\r\n  \"email\": null,\r\n  \"skype\": null,\r\n  \"linkedin\": null,\r\n  \"portfolio\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}/contacts",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}",
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending form when one or more mandatory fields are empty and optional fields are filled in with valid values",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"phoneCodeId\":  15,\r\n  \"phoneNumber\": null,\r\n  \"email\": null,\r\n  \"skype\": \"Skype\",\r\n  \"linkedin\": \"www\",\r\n  \"portfolio\": \"Link\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}/contacts",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}",
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending Min valid values in fields",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"phoneCodeId\":  20,\r\n  \"phoneNumber\": \"9\",\r\n  \"email\": \"P@b.by\",\r\n  \"skype\": \"s\",\r\n  \"linkedin\": \"h\",\r\n  \"portfolio\": \"h\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}/contacts",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}",
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending Max valid values in fields",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"phoneCodeId\":  20,\r\n  \"phoneNumber\": 1234567890123456789012345,\r\n  \"email\": \"FG7h66ktlRs134V506T79pw2sfgpgsdl@it-Academy.ma.byg\",\r\n  \"skype\": \"qWeRtYuIoP-aaQQQQQaaa ZXCVBNMassddfgjkkll-jsjshjsh\",\r\n  \"linkedin\": \"https://clck.ru/F9yPVолрфывдэыоа68423098dfhaSLS;LFLXV\\\\FNKLSD;VDSDVV/DBF/NBZMCZ.MVSD/DCM,NB,CS,.MVSD/MVS,.VL/J;GVJLSDN’KSJD;L’JJ;L’KEWP’OUFIDSHAlsn,wrilehofihisann’ldsfnndfs’k;.akldnb’bn;sl’lkl;jdfkhkdfhlkn;lkfds”k’:mlk;SDB:NM<NZ><XCNV<NVCBZ:KNgh\",\r\n  \"portfolio\": \"https://clck.ru/F9yPVолрфывдэыоа68423098dfhaSLS;LFLXV\\\\FNKLSD;VDSDVV/DBF/NBZMCZ.MVSD/DCM,NB,CS,.MVSD/MVS,.VL/J;GVJLSDN’KSJD;L’JJ;L’KEWP’OUFIDSHAlsn,wrilehofihisann’ldsfnndfs’k;.akldnb’bn;sl’lkl;jdfkhkdfhlkn;lkfds”k’:mlk;SDB:NM<NZ><XCNV<NVCBZ:KNgh\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}/contacts",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}",
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending invalid values in field \"Phone\"",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"phoneCodeId\":  15,\r\n  \"phoneNumber\": \"     \",\r\n  \"email\": \"info@mail.com\",\r\n  \"skype\": null,\r\n  \"linkedin\": \"https://www.linkedin.com/feed/\",\r\n  \"portfolio\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}/contacts",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}",
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending invalid values in field \"Email\"",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"phoneCodeId\":  15,\r\n  \"phoneNumber\": \"291234455\",\r\n  \"email\": \"mail@-m.ru\",\r\n  \"skype\": null,\r\n  \"linkedin\": \"https://www.linkedin.com/feed/\",\r\n  \"portfolio\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}/contacts",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}",
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending invalid values in field \"LinkedIn\"",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " {\r\n  \"phoneCodeId\":  15,\r\n  \"phoneNumber\": \"291234455\",\r\n  \"email\": \"info@mail.ru\",\r\n  \"skype\": null,\r\n  \"linkedin\": \"    \",\r\n  \"portfolio\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}/contacts",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}",
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending form with invalid values in mandatory fields",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"phoneCodeId\":  15,\r\n  \"phoneNumber\": \"abc\",\r\n  \"email\": \"info @ mail.ru\",\r\n  \"skype\": null,\r\n  \"linkedin\": \"     \",\r\n  \"portfolio\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}/contacts",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}",
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending form with max+1 values in mandatory fields",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"phoneCodeId\":  15,\r\n  \"phoneNumber\": \"1234567890123456789012345678\",\r\n  \"email\": \"a.fghdkllls1234567898900FG0w000essdl@it-academy.byg\",\r\n  \"skype\": \"qWeRtYuIoP-aaQQQQQaaa ZXCVBNMassddfgjkkll-jsjshjshdfg\",\r\n  \"linkedin\": \"https://clck.ru/F9yPVолрфывдэыоа68423098dfhaSLS;LFLXV\r\nFNKLSD;VDSDVV/DBF/NBZMCZ.MVSD/DCM,NB,CS,.MVSD/MVS,.VL/J;GVJLSDN’KSJD;L’JJ;L’KEWP’OUFIDSHAlsn,wrilehofihisann’ldsfnndfs’k;.akldnb’bn;sl’lkl;jdfkhkdfhlkn;lkfds”k’:mlk;SDB:NM<NZ><XCNV<NVCBZ:KNgh123\",\r\n  \"portfolio\": \"https://clck.ru/F9yPVолрфывдэыоа68423098dfhaSLS;LFLXV\r\nFNKLSD;VDSDVV/DBF/NBZMCZ.MVSD/DCM,NB,CS,.MVSD/MVS,.VL/J;GVJLSDN’KSJD;L’JJ;L’KEWP’OUFIDSHAlsn,wrilehofihisann’ldsfnndfs’k;.akldnb’bn;sl’lkl;jdfkhkdfhlkn;lkfds”k’:mlk;SDB:NM<NZ><XCNV<NVCBZ:KNgh123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}/contacts",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}",
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending form with spaces before and after valid value in \"Email\" field",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"phoneCodeId\": 15,\r\n\"phoneNumber\": \"291234455\",\r\n\"email\": \"   info@mail.com     \",\r\n\"skype\": null,\r\n\"linkedin\": \"www.linkedin\",\r\n\"portfolio\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}/contacts",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}",
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Change method from POST to GET/PUT/Delete",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"PhoneCodeId\":  15,\r\n  \"PhoneNumber\": \"291234455\",\r\n  \"EMAIL\": \"info@mail.com\",\r\n  \"skype\": null,\r\n  \"LinkedIn\": \"www.linkedin\",\r\n  \"PORTFOLIO\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}/contacts",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}",
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Send a request for adding information into Personal details with header in another register",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"PhoneCodeId\":  15,\r\n  \"PhoneNumber\": \"291234455\",\r\n  \"EMAIL\": \"info@mail.com\",\r\n  \"skype\": null,\r\n  \"LinkedIn\": \"www.linkedin\",\r\n  \"PORTFOLIO\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}/contacts",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}",
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Update CV2",
+					"item": [
+						{
+							"name": "Sending form with valid values in mandatory fields with token",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"phoneCodeId\": 145,\r\n\"phoneNumber\": \"29555555\",\r\n\"email\": \"info@mail.co\",\r\n\"skype\": null,\r\n\"linkedin\": \"www.linkedin/need\",\r\n\"portfolio\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}/contacts",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}",
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending form with valid values in mandatory fields without token",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"phoneCodeId\":  15,\r\n  \"phoneNumber\": \"291234455\",\r\n  \"email\": \"info@mail.belpak.by\",\r\n  \"skype\": \"Facebook: live\",\r\n  \"linkedin\": \"https://clck.ru/F9yPV\",\r\n  \"portfolio\": \"h\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}/contacts",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}",
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending form with valid values in all fields",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"phoneCodeId\":  15,\r\n  \"phoneNumber\": \"291234455\",\r\n  \"email\": \"info@mail.belpak.by\",\r\n  \"skype\": \"Facebook: live\",\r\n  \"linkedin\": \"https://clck.ru/F9yPV\",\r\n  \"portfolio\": \"h\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}/contacts",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}",
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending form when one or more mandatory fields are empty",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"phoneCodeId\":  15,\r\n  \"phoneNumber\": null,\r\n  \"email\": null,\r\n  \"skype\": null,\r\n  \"linkedin\": \"H\",\r\n  \"portfolio\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}/contacts",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}",
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending form when one or more mandatory fields are empty and optional fields are filled in with valid values",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"phoneCodeId\":  15,\r\n  \"phoneNumber\": 29687,\r\n  \"email\": null,\r\n  \"skype\": \"Skype\",\r\n  \"linkedin\": \"www\",\r\n  \"portfolio\": \"Link\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}/contacts",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}",
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending Min valid values in fields",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"phoneCodeId\":  20,\r\n  \"phoneNumber\": \"9\",\r\n  \"email\": \"P@b.by\",\r\n  \"skype\": \"s\",\r\n  \"linkedin\": \"h\",\r\n  \"portfolio\": \"h\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}/contacts",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}",
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending Max valid values in fields",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " {\r\n  \"phoneCodeId\":  20,\r\n  \"phoneNumber\": 1234567890123456789012345,\r\n  \"email\": \"FG7h66ktlRs134V506T79pw2sfgpgsdl@it-Academy.ma.byg\",\r\n  \"skype\": \"qWeRtYuIoP-aaQQQQQaaa ZXCVBNMassddfgjkkll-jsjshjsh\",\r\n  \"linkedin\": \"https://clck.ru/F9yPVолрфывдэыоа68423098dfhaSLS;LFLXV\\\\FNKLSD;VDSDVV/DBF/NBZMCZ.MVSD/DCM,NB,CS,.MVSD/MVS,.VL/J;GVJLSDN’KSJD;L’JJ;L’KEWP’OUFIDSHAlsn,wrilehofihisann’ldsfnndfs’k;.akldnb’bn;sl’lkl;jdfkhkdfhlkn;lkfds”k’:mlk;SDB:NM<NZ><XCNV<NVCBZ:KNgh123456789\",\r\n  \"portfolio\": \"https://clck.ru/F9yPVолрфывдэыоа68423098dfhaSLS;LFLXV\\\\FNKLSD;VDSDVV/DBF/NBZMCZ.MVSD/DCM,NB,CS,.MVSD/MVS,.VL/J;GVJLSDN’KSJD;L’JJ;L’KEWP’OUFIDSHAlsn,wrilehofihisann’ldsfnndfs’k;.akldnb’bn;sl’lkl;jdfkhkdfhlkn;lkfds”k’:mlk;SDB:NM<NZ><XCNV<NVCBZ:KNgh123456789\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}/contacts",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}",
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending invalid values in field \"Phone\"",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"phoneCodeId\":  15,\r\n  \"phoneNumber\": \"     \",\r\n  \"email\": \"info@mail.com\",\r\n  \"skype\": null,\r\n  \"linkedin\": \"https://www.linkedin.com/feed/\",\r\n  \"portfolio\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}/contacts",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}",
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending invalid values in field \"Email\"",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"phoneCodeId\":  15,\r\n  \"phoneNumber\": \"291234455\",\r\n  \"email\": \"mail@-m.ru\",\r\n  \"skype\": null,\r\n  \"linkedin\": \"https://www.linkedin.com/feed/\",\r\n  \"portfolio\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}/contacts",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}",
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending invalid values in field \"LinkedIn\"",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " {\r\n  \"phoneCodeId\":  15,\r\n  \"phoneNumber\": \"291234455\",\r\n  \"email\": \"info@mail.ru\",\r\n  \"skype\": null,\r\n  \"linkedin\": \"    \",\r\n  \"portfolio\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}/contacts",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}",
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending form with invalid values in mandatory fields",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"phoneCodeId\":  15,\r\n  \"phoneNumber\": \"abc\",\r\n  \"email\": \"info @ mail.ru\",\r\n  \"skype\": null,\r\n  \"linkedin\": \"     \",\r\n  \"portfolio\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}/contacts",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}",
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending form with max+1 values in mandatory fields",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"phoneCodeId\":  15,\r\n  \"phoneNumber\": \"1234567890123456789012345678\",\r\n  \"email\": \"a.fghdkllls1234567898900FG0w000essdl@it-academy.byg\",\r\n  \"skype\": \"qWeRtYuIoP-aaQQQQQaaa ZXCVBNMassddfgjkkll-jsjshjshdfg\",\r\n  \"linkedin\": \"https://clck.ru/F9yPVолрфывдэыоа68423098dfhaSLS;LFLXVFNKLSD;VDSDVV/DBF/NBZMCZ.MVSD/DCM,NB,CS,.MVSD/MVS,.VL/J;GVJLSDN’KSJD;L’JJ;L’KEWP’OUFIDSHAlsn,wrilehofihisann’ldsfnndfs’k;.akldnb’bn;sl’lkl;jdfkhkdfhlkn;lkfds”k’:mlk;SDB:NM<NZ><XCNV<NVCBZ:KNgh1231234567890\",\r\n  \"portfolio\": \"https://clck.ru/F9yPVолрфывдэыоа68423098dfhaSLS;LFLXVFNKLSD;VDSDVV/DBF/NBZMCZ.MVSD/DCM,NB,CS,.MVSD/MVS,.VL/J;GVJLSDN’KSJD;L’JJ;L’KEWP’OUFIDSHAlsn,wrilehofihisann’ldsfnndfs’k;.akldnb’bn;sl’lkl;jdfkhkdfhlkn;lkfds”k’:mlk;SDB:NM<NZ><XCNV<NVCBZ:KNgh1231234567890\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}/contacts",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}",
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sending form with spaces before and after valid value in \"Email\" field",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"phoneCodeId\": 15,\r\n\"phoneNumber\": \"291234455\",\r\n\"email\": \"   info@mail.com     \",\r\n\"skype\": null,\r\n\"linkedin\": \"www.linkedin\",\r\n\"portfolio\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}/contacts",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}",
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Change method from POST to GET/PUT/Delete",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"PhoneCodeId\":  15,\r\n  \"PhoneNumber\": \"291234455\",\r\n  \"EMAIL\": \"info@mail.com\",\r\n  \"skype\": null,\r\n  \"LinkedIn\": \"www.linkedin\",\r\n  \"PORTFOLIO\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}/contacts",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}",
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Send a request for adding information into Personal details with header in another register",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"phoneCodeId\":  15,\r\n  \"phoneNumber\": \"291234455\",\r\n  \"email\": \"info@mail.com\",\r\n  \"skype\": \"hfhfh\",\r\n  \"linkedin\": \"www.linkedin\",\r\n  \"PORTFOLIO\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}/contacts",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}",
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Get CV2",
+					"item": [
+						{
+							"name": "Get contacts section of CV with token",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}/contacts",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}",
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get contacts section of CV for user with no section in CV with UUID specified in URL",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/9b43e222-9e0e-41fc-8ce2-859748aa80f7/contacts",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"9b43e222-9e0e-41fc-8ce2-859748aa80f7",
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get contacts section of CV without token",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}/contacts",
+									"protocol": "http",
+									"host": [
+										"{{Url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"cvs",
+										"{{Uuid}}",
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Add foto with token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"{\r",
+									"    var jsonData = JSON.parse(responseBody);\r",
+									"        pm.environment.set(\"imageUuid\", jsonData.uuid);}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/Andrey/Pictures/handy/_thumb_50062.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://{{Url}}/api/v1/images",
+							"protocol": "http",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"images"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sending form with valid values in mandatory fields with token Copy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {  \r\n  \"imageUuid\": null,\r\n  \"name\": \"Sveta\",\r\n  \"surname\": \"fg\",\r\n  \"positionId\": 5,\r\n  \"countryId\": 22,\r\n  \"city\": \"Riga\",\r\n  \"isReadyToRelocate\": false,\r\n  \"isReadyForRemoteWork\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Url}}/api/v1/cvs",
+							"protocol": "http",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"cvs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update form with valid values in mandatory fields with token Copy",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"imageUuid\": null,  \"name\": \"Elena\", \"surname\": \"Sidorova\", \"countryId\": 20, \"positionId\": 20,  \"city\": \"Brest\",   \"isReadyToRelocate\": false,   \"isReadyForRemoteWork\": false}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Url}}/api/v1/cvs/{{Uuid}}",
+							"protocol": "http",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"cvs",
+								"{{Uuid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get foto with token",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{Token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Url}}/api/v1/images/{{imageUuid}}",
+							"protocol": "http",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"images",
+								"{{imageUuid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get goto without token",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Url}}/api/v1/images/{{imageUuid}}",
+							"protocol": "http",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"images",
+								"{{imageUuid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get foto which do not belong to user",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{Token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Url}}/api/v1/images/77618f40-f4c1-4542-9010-04c116caee8d",
+							"protocol": "http",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"images",
+								"77618f40-f4c1-4542-9010-04c116caee8d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change method to POST/PUT/DELETE Copy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{Token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Url}}/api/v1/images/{{imageUuid}}",
+							"protocol": "http",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"images",
+								"{{imageUuid}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{Token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var options = {",
+							"  'method': 'POST',",
+							"  'url': 'http://192.168.205.11:8080/api/v1/auth/login',",
+							"  'headers': {",
+							"    'Content-Type': 'application/json'",
+							"  },",
+							"'body': {",
+							"    mode: \"raw\",",
+							"    raw: JSON.stringify(",
+							"  { \"email\": \"test@it-academy.by\", \"password\": \"aZ123f@#$\" }",
+							"    ),",
+							"    options: {",
+							"        raw: {",
+							"            language: \"json\"",
+							"        }",
+							"    }",
+							"}",
+							"};",
+							"",
+							"pm.sendRequest(options, function (error, response) {",
+							"    if (error) throw new Error(error);",
+							"    var jsonData = response.json();",
+							"    pm.environment.set(\"Token\", jsonData.token);",
+							"});"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "Url",
+			"value": "192.168.205.11:8080",
+			"type": "string"
+		}
+	]
+}
